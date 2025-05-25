@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hibachi & Filipino Menu Pricing Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<!-- App Controls -->
+    <div class="container mx-auto px-4 py-4 no-print">
+        <div class="flex flex-wrap justify-between items-center gap-2">
+            <div class="flex space-x-2">
+                <button id="save-app-data" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+                    </svg>
+                    Save All Data
+                </button>
+                <button id="export-data" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    Export Menu
+                </button>
+            </div>
+            <div class="flex space-x-2">
+                <button id="import-data" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" transform="rotate(180 10 10)" />
+                    </svg>
+                    Import Menu
+                </button>
+                <button id="print-menu" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
+                    </svg>
+                    Print Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 no-print">
+            <!-- Left Column: Ingredients -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    Ingredients
+                </h2>
+                
+                <div class="mb-4">
+                    <div class="flex justify-between mb-2">
+                        <label class="text-gray-700 font-medium">Cuisine Type</label>
+                        <div class="flex">
+                            <button id="cuisine-hibachi" class="px-3 py-1 rounded-l-lg bg-orange-500 text-white">Hibachi</button>
+                            <button id="cuisine-filipino" class="px-3 py-1 rounded-r-lg bg-gray-200 text-gray-700">Filipino</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ingredient Categories -->
+                <div class="mb-4 overflow-x-auto">
+                    <div class="flex space-x-2 mb-3">
+                        <button class="category-tab active px-3 py-1 text-sm rounded-lg whitespace-nowrap" data-category="proteins">Proteins</button>
+                        <button class="category-tab px-3 py-1 text-sm rounded-lg bg-gray-200 whitespace-nowrap" data-category="vegetables">Vegetables</button>
+                        <button class="category-tab px-3 py-1 text-sm rounded-lg bg-gray-200 whitespace-nowrap" data-category="grains">Grains & Noodles</button>
+                        <button class="category-tab px-3 py-1 text-sm rounded-lg bg-gray-200 whitespace-nowrap" data-category="seasonings">Seasonings</button>
+                        <button class="category-tab px-3 py-1 text-sm rounded-lg bg-gray-200 whitespace-nowrap" data-category="oils">Oils & Fats</button>
+                        <button class="category-tab px-3 py-1 text-sm rounded-lg bg-gray-200 whitespace-nowrap" data-category="other">Other</button>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <input type="text" id="ingredient-search" placeholder="Search ingredients..." class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 input-focus">
+                </div>
+                
+                <div id="ingredient-list" class="space-y-2 max-h-[400px] overflow-y-auto scrollbar-thin pr-1">
+                    <!-- Ingredients will be populated here -->
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <div class="flex items-center">
+                        <input type="text" id="new-ingredient" placeholder="Add custom ingredient" class="input-focus flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none">
+                        <input type="number" id="new-ingredient-cost" placeholder="$/unit" class="input-focus w-20 px-2 py-2 border-y border-gray-300 focus:outline-none">
+                        <select id="new-ingredient-unit" class="input-focus w-20 px-2 py-2 border border-gray-300 focus:outline-none">
+                            <option value="oz">oz</option>
+                            <option value="lb">lb</option>
+                            <option value="each">each</option>
+                            <option value="bunch">bunch</option>
+                            <option value="cup">cup</option>
+                        </select>
+                        <button id="add-ingredient-btn" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-r-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Middle Column: Portion & Pricing -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Portion & Pricing
+                </h2>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Dish Name</label>
+                    <input type="text" id="dish-name" placeholder="Enter dish name" class="input-focus w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Portion Size</label>
+                    <div class="flex space-x-2">
+                        <button data-size="small" data-oz="4" class="portion-btn flex-1 py-2 border border-gray-300 rounded-lg focus:outline-none hover:bg-orange-100 transition-colors">Small (4 oz)</button>
+                        <button data-size="regular" data-oz="6" class="portion-btn flex-1 py-2 border border-gray-300 rounded-lg focus:outline-none hover:bg-orange-100 transition-colors bg-orange-100">Regular (6 oz)</button>
+                        <button data-size="large" data-oz="8" class="portion-btn flex-1 py-2 border border-gray-300 rounded-lg focus:outline-none hover:bg-orange-100 transition-colors">Large (8 oz)</button>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Profit Margin (%)</label>
+                    <input type="range" id="profit-margin" min="10" max="70" value="30" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>10%</span>
+                        <span id="profit-display">30%</span>
+                        <span>70%</span>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Labor Cost ($)</label>
+                    <input type="number" id="labor-cost" value="3.50" min="0" step="0.50" class="input-focus w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Overhead Cost ($)</label>
+                    <input type="number" id="overhead-cost" value="2.25" min="0" step="0.50" class="input-focus w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none">
+                </div>
+                
+                <div class="mt-6">
+                    <h3 class="text-lg font-medium text-gray-800 mb-3">Selected Ingredients</h3>
+                    <div id="selected-ingredients-list" class="bg-gray-50 rounded-lg p-4 min-h-[100px] max-h-[200px] overflow-y-auto scrollbar-thin">
+                        <p class="text-gray-500 text-center py-6">No ingredients selected yet</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column: Results -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    Price Calculation
+                </h2>
+                
+                <div class="bg-orange-50 rounded-lg p-4 mb-6">
+                    <h3 id="result-dish-name" class="text-xl font-bold text-gray-800 mb-2">Dish Name</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Cuisine Type:</span>
+                        <span id="result-cuisine-type" class="font-medium">Hibachi</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-gray-600">Portion Size:</span>
+                        <span id="result-portion-size" class="font-medium">Regular (6 oz)</span>
+                    </div>
+                </div>
+                
+                <div class="space-y-3 mb-6">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Ingredients Cost:</span>
+                        <span id="ingredients-cost" class="font-medium">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Labor Cost:</span>
+                        <span id="result-labor-cost" class="font-medium">$3.50</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Overhead Cost:</span>
+                        <span id="result-overhead-cost" class="font-medium">$2.25</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+                        <span class="text-gray-600">Total Cost:</span>
+                        <span id="total-cost" class="font-medium">$5.75</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Profit Margin:</span>
+                        <span id="result-profit-margin" class="font-medium">30%</span>
+                    </div>
+                </div>
+                
+                <div class="bg-orange-500 rounded-lg p-4 text-center">
+                    <div class="text-white text-sm mb-1">Recommended Menu Price</div>
+                    <div id="final-price" class="text-white text-3xl font-bold">$8.21</div>
+                </div>
+                
+                <div class="mt-6">
+                    <button id="save-dish-btn" class="w-full bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-lg transition-colors flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+                        </svg>
+                        Save to Menu
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Saved Menu Items -->
+        <div class="mt-10">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                Saved Menu Items
+            </h2>
+            
+            <div id="saved-dishes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Saved dishes will appear here -->
+                <div class="text-center text-gray-500 py-10 col-span-full">
+                    No dishes saved yet. Build your first dish and click "Save to Menu".
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Print Template -->
+<div id="print-template" class="hidden print-only">
+    <div class="py-8 px-6">
+        <h1 class="text-3xl font-bold text-center mb-6">Menu Price List - Clarksville, TN</h1>
+        <div id="print-dishes" class="space-y-6"></div>
+    </div>
+</div>
+
+<!-- Import Modal -->
+<div id="import-modal" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Import Menu Data</h3>
+            <button class="close-modal text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <p class="mb-4 text-gray-600">Paste your exported menu data below:</p>
+        <textarea id="import-data-text" class="w-full h-40 p-3 border border-gray-300 rounded-lg mb-4" placeholder="Paste your JSON data here..."></textarea>
+        <div class="flex justify-end">
+            <button id="cancel-import" class="px-4 py-2 mr-2 bg-gray-200 hover:bg-gray-300 rounded-lg">Cancel</button>
+            <button id="confirm-import" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Import Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- Unit Selector Modal -->
+<div id="unit-selector-modal" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Change Ingredient Unit</h3>
+            <button class="close-modal text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Ingredient</label>
+            <input type="text" id="unit-selector-ingredient" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 input-focus" readonly>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Current Cost</label>
+            <input type="number" id="unit-selector-cost" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 input-focus">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Unit</label>
+            <select id="unit-selector-unit" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 input-focus">
+                <option value="oz">oz</option>
+                <option value="lb">lb</option>
+                <option value="each">each</option>
+                <option value="bunch">bunch</option>
+                <option value="cup">cup</option>
+            </select>
+        </div>
+        <div class="flex justify-end">
+            <button id="cancel-unit-change" class="px-4 py-2 mr-2 bg-gray-200 hover:bg-gray-300 rounded-lg">Cancel</button>
+            <button id="confirm-unit-change" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Update Unit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize ingredient data with categories - Updated for Clarksville, TN pricing
+    const ingredientData = {
+        proteins: [
+            { name: "Chicken", cost: 0.25, unit: "oz" },
+            { name: "Steak", cost: 0.62, unit: "oz" },
+            { name: "Beef", cost: 0.47, unit: "oz" },
+            { name: "Pork", cost: 0.31, unit: "oz" },
+            { name: "Salmon", cost: 0.69, unit: "oz" },
+            { name: "Shrimp", cost: 0.81, unit: "oz" },
+            { name: "Eggs", cost: 0.33, unit: "each" }
+        ],
+        vegetables: [
+            { name: "Cabbage", cost: 0.09, unit: "oz" },
+            { name: "Carrots", cost: 0.11, unit: "oz" },
+            { name: "Celery", cost: 0.14, unit: "oz" },
+            { name: "Onions", cost: 0.08, unit: "oz" },
+            { name: "Potatoes", cost: 0.06, unit: "oz" },
+            { name: "Broccoli", cost: 0.17, unit: "oz" },
+            { name: "Eggplant", cost: 0.22, unit: "oz" },
+            { name: "Tomatoes", cost: 0.19, unit: "oz" },
+            { name: "Bell pepper", cost: 0.12, unit: "oz" },
+            { name: "Garlic clusters", cost: 1.29, unit: "each" },
+            { name: "Green onions", cost: 1.19, unit: "bunch" },
+            { name: "Zucchini", cost: 0.12, unit: "oz" }
+        ],
+        grains: [
+            { name: "Long grain rice", cost: 0.09, unit: "oz" },
+            { name: "Jasmine rice", cost: 0.14, unit: "oz" },
+            { name: "Basmati rice", cost: 0.17, unit: "oz" },
+            { name: "Vegetable noodles", cost: 0.22, unit: "oz" },
+            { name: "Spaghetti noodles", cost: 0.11, unit: "oz" },
+            { name: "Rice paper sheets", cost: 4.49, unit: "pack" },
+            { name: "Rice noodles", cost: 0.19, unit: "oz" }
+        ],
+        seasonings: [
+            { name: "Garlic powder", cost: 4.49, unit: "oz" },
+            { name: "Onion powder", cost: 3.99, unit: "oz" },
+            { name: "Mustard seed", cost: 5.49, unit: "oz" },
+            { name: "Bay leaves", cost: 4.29, unit: "oz" },
+            { name: "Soy sauce", cost: 0.60, unit: "oz" },
+            { name: "Sazon", cost: 4.49, unit: "oz" },
+            { name: "Black pepper", cost: 5.49, unit: "oz" },
+            { name: "Paprika", cost: 4.29, unit: "oz" },
+            { name: "Seasoned salt", cost: 3.49, unit: "oz" },
+            { name: "Table salt", cost: 1.19, unit: "oz" },
+            { name: "Vinegar", cost: 0.30, unit: "oz" },
+            { name: "Apple cider vinegar", cost: 0.35, unit: "oz" },
+            { name: "Cloves", cost: 7.49, unit: "oz" },
+            { name: "Thyme", cost: 5.49, unit: "oz" },
+            { name: "Rosemary", cost: 5.49, unit: "oz" },
+            { name: "Sugar", cost: 0.12, unit: "oz" },
+            { name: "Seasoning", cost: 4.49, unit: "oz" },
+            { name: "Cilantro", cost: 2.29, unit: "bunch" },
+            { name: "Lemon pepper", cost: 4.49, unit: "oz" },
+            { name: "Basil", cost: 5.49, unit: "oz" },
+            { name: "Himalayan pink salt", cost: 6.49, unit: "oz" },
+            { name: "Bouillon", cost: 3.49, unit: "oz" },
+            { name: "Turmeric", cost: 6.49, unit: "oz" },
+            { name: "Curry", cost: 5.49, unit: "oz" },
+            { name: "Sesame oil", cost: 0.89, unit: "oz" }
+        ],
+        oils: [
+            { name: "Vegetable oil", cost: 0.25, unit: "oz" },
+            { name: "Frying oil", cost: 0.30, unit: "oz" },
+            { name: "Canola oil", cost: 0.25, unit: "oz" },
+            { name: "Coconut oil", cost: 0.60, unit: "oz" },
+            { name: "Butter", cost: 0.35, unit: "oz" }
+        ],
+        other: [
+            { name: "Lemons", cost: 0.89, unit: "each" },
+            { name: "Limes", cost: 0.69, unit: "each" },
+            { name: "Coconut milk", cost: 0.30, unit: "oz" }
+        ]
+    };
+    
+    // Initialize hibachi and filipino specific ingredients
+    const hibachiSpecificIngredients = [
+        "Chicken", "Steak", "Shrimp", "Onions", "Carrots", "Zucchini", 
+        "Long grain rice", "Soy sauce", "Vegetable oil", "Garlic powder", 
+        "Butter", "Green onions", "Black pepper", "Sesame oil"
+    ];
+    
+    const filipinoSpecificIngredients = [
+        "Pork", "Chicken", "Beef", "Jasmine rice", "Garlic clusters", 
+        "Vinegar", "Soy sauce", "Coconut milk", "Bay leaves", "Black pepper", 
+        "Onions", "Eggs", "Tomatoes", "Eggplant"
+    ];
+    
+    // Initialize variables
+    let currentCuisine = "hibachi";
+    let currentCategory = "proteins";
+    let currentPortionSize = "regular";
+    let currentPortionOz = 6; // Default to 6 oz for regular
+    let selectedIngredients = [];
+    let savedDishes = [];
+    let customIngredients = [];
+    let currentEditingIngredient = null;
+    
+    // DOM Elements
+    const ingredientList = document.getElementById('ingredient-list');
+    const selectedIngredientsList = document.getElementById('selected-ingredients-list');
+    const cuisineHibachi = document.getElementById('cuisine-hibachi');
+    const cuisineFilipino = document.getElementById('cuisine-filipino');
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const profitMargin = document.getElementById('profit-margin');
+    const profitDisplay = document.getElementById('profit-display');
+    const laborCost = document.getElementById('labor-cost');
+    const overheadCost = document.getElementById('overhead-cost');
+    const portionBtns = document.querySelectorAll('.portion-btn');
+    const resultDishName = document.getElementById('result-dish-name');
+    const resultCuisineType = document.getElementById('result-cuisine-type');
+    const resultPortionSize = document.getElementById('result-portion-size');
+    const ingredientsCost = document.getElementById('ingredients-cost');
+    const resultLaborCost = document.getElementById('result-labor-cost');
+    const resultOverheadCost = document.getElementById('result-overhead-cost');
+    const totalCost = document.getElementById('total-cost');
+    const resultProfitMargin = document.getElementById('result-profit-margin');
+    const finalPrice = document.getElementById('final-price');
+    const saveDishBtn = document.getElementById('save-dish-btn');
+    const savedDishesContainer = document.getElementById('saved-dishes');
+    const dishNameInput = document.getElementById('dish-name');
+    const newIngredientInput = document.getElementById('new-ingredient');
+    const newIngredientCostInput = document.getElementById('new-ingredient-cost');
+    const newIngredientUnitInput = document.getElementById('new-ingredient-unit');
+    const addIngredientBtn = document.getElementById('add-ingredient-btn');
+    const ingredientSearch = document.getElementById('ingredient-search');
+    const saveAppDataBtn = document.getElementById('save-app-data');
+    const exportDataBtn = document.getElementById('export-data');
+    const importDataBtn = document.getElementById('import-data');
+    const printMenuBtn = document.getElementById('print-menu');
+    const importModal = document.getElementById('import-modal');
+    const unitSelectorModal = document.getElementById('unit-selector-modal');
+    const closeModalBtns = document.querySelectorAll('.close-modal');
+    const cancelImportBtn = document.getElementById('cancel-import');
+    const confirmImportBtn = document.getElementById('confirm-import');
+    const importDataText = document.getElementById('import-data-text');
+    const printTemplate = document.getElementById('print-template');
+    const printDishes = document.getElementById('print-dishes');
+    const unitSelectorIngredient = document.getElementById('unit-selector-ingredient');
+    const unitSelectorCost = document.getElementById('unit-selector-cost');
+    const unitSelectorUnit = document.getElementById('unit-selector-unit');
+    const cancelUnitChangeBtn = document.getElementById('cancel-unit-change');
+    const confirmUnitChangeBtn = document.getElementById('confirm-unit-change');
+    
+    // Load data from localStorage
+    function loadFromLocalStorage() {
+        try {
+            // Load saved dishes
+            const savedDishesData = localStorage.getItem('menuPricingDishes');
+            if (savedDishesData) {
+                savedDishes = JSON.parse(savedDishesData);
+            }
+            
+            // Load custom ingredients
+            const customIngredientsData = localStorage.getItem('menuPricingCustomIngredients');
+            if (customIngredientsData) {
+                customIngredients = JSON.parse(customIngredientsData);
+                
+                // Add custom ingredients to the appropriate categories
+                customIngredients.forEach(ing => {
+                    if (ingredientData[ing.category]) {
+                        // Check if ingredient already exists
+                        const exists = ingredientData[ing.category].some(i => i.name === ing.name);
+                        if (!exists) {
+                            ingredientData[ing.category].push({
+                                name: ing.name,
+                                cost: ing.cost,
+                                unit: ing.unit
+                            });
+                        }
+                    }
+                });
+            }
+            
+            showNotification('Data loaded successfully!', 'success');
+        } catch (error) {
+            console.error('Error loading data from localStorage:', error);
+            showNotification('Error loading saved data', 'error');
+        }
+    }
+    
+    // Save data to localStorage
+    function saveToLocalStorage() {
+        try {
+            // Save dishes
+            localStorage.setItem('menuPricingDishes', JSON.stringify(savedDishes));
+            
+            // Save custom ingredients
+            localStorage.setItem('menuPricingCustomIngredients', JSON.stringify(customIngredients));
+            
+            showNotification('All data saved successfully!', 'success');
+        } catch (error) {
+            console.error('Error saving data to localStorage:', error);
+            showNotification('Error saving data', 'error');
+        }
+    }
+    
+    // Export data as JSON
+    function exportData() {
+        try {
+            const exportData = {
+                dishes: savedDishes,
+                customIngredients: customIngredients,
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'clarksville-menu-pricing-data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Menu data exported successfully!', 'success');
+        } catch (error) {
+            console.error('Error exporting data:', error);
+            showNotification('Error exporting data', 'error');
+        }
+    }
+    
+    // Import data from JSON
+    function importData(jsonData) {
+        try {
+            const data = JSON.parse(jsonData);
+            
+            if (data.dishes && Array.isArray(data.dishes)) {
+                savedDishes = data.dishes;
+            }
+            
+            if (data.customIngredients && Array.isArray(data.customIngredients)) {
+                customIngredients = data.customIngredients;
+                
+                // Add custom ingredients to the appropriate categories
+                customIngredients.forEach(ing => {
+                    if (ingredientData[ing.category]) {
+                        // Check if ingredient already exists
+                        const exists = ingredientData[ing.category].some(i => i.name === ing.name);
+                        if (!exists) {
+                            ingredientData[ing.category].push({
+                                name: ing.name,
+                                cost: ing.cost,
+                                unit: ing.unit
+                            });
+                        }
+                    }
+                });
+            }
+            
+            // Save to localStorage
+            saveToLocalStorage();
+            
+            // Render saved dishes
+            renderSavedDishes();
+            
+            // Render ingredients
+            renderIngredients();
+            
+            showNotification('Menu data imported successfully!', 'success');
+        } catch (error) {
+            console.error('Error importing data:', error);
+            showNotification('Error importing data. Invalid JSON format.', 'error');
+        }
+    }
+    
+    // Print menu
+    function printMenu() {
+        // Populate print template
+        printDishes.innerHTML = '';
+        
+        if (savedDishes.length === 0) {
+            printDishes.innerHTML = '<p class="text-center text-gray-500 py-6">No dishes saved yet.</p>';
+        } else {
+            // Group dishes by cuisine type
+            const groupedDishes = {};
+            
+            savedDishes.forEach(dish => {
+                if (!groupedDishes[dish.cuisineType]) {
+                    groupedDishes[dish.cuisineType] = [];
+                }
+                groupedDishes[dish.cuisineType].push(dish);
+            });
+            
+            // Create sections for each cuisine type
+            for (const [cuisineType, dishes] of Object.entries(groupedDishes)) {
+                const cuisineSection = document.createElement('div');
+                cuisineSection.className = 'mb-8';
+                
+                cuisineSection.innerHTML = `
+                    <h2 class="text-2xl font-bold mb-4 pb-2 border-b-2 border-gray-300">
+                        ${cuisineType.charAt(0).toUpperCase() + cuisineType.slice(1)} Menu
+                    </h2>
+                    <div class="space-y-4"></div>
+                `;
+                
+                const dishesContainer = cuisineSection.querySelector('.space-y-4');
+                
+                dishes.forEach(dish => {
+                    const dishItem = document.createElement('div');
+                    dishItem.className = 'flex justify-between items-center';
+                    
+                    // Get top 3 ingredients
+                    const topIngredients = dish.ingredients.slice(0, 3).map(ing => ing.name).join(', ');
+                    
+                    // Get portion size with oz
+                    let portionText = dish.portionSize.charAt(0).toUpperCase() + dish.portionSize.slice(1);
+                    if (dish.portionOz) {
+                        portionText += ` (${dish.portionOz} oz)`;
+                    }
+                    
+                    dishItem.innerHTML = `
+                        <div>
+                            <h3 class="text-lg font-semibold">${dish.name}</h3>
+                            <p class="text-sm text-gray-600">${topIngredients}${dish.ingredients.length > 3 ? '...' : ''}</p>
+                            <p class="text-xs text-gray-500">${portionText}</p>
+                        </div>
+                        <div class="text-xl font-bold">$${dish.price.toFixed(2)}</div>
+                    `;
+                    
+                    dishesContainer.appendChild(dishItem);
+                });
+                
+                printDishes.appendChild(cuisineSection);
+            }
+        }
+        
+        // Print the page
+        window.print();
+    }
+    
+    // Show notification
+    function showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+            type === 'success' ? 'bg-green-500' : 
+            type === 'error' ? 'bg-red-500' : 
+            'bg-blue-500'
+        } text-white`;
+        
+        notification.innerHTML = message;
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 500);
+        }, 3000);
+    }
+    
+    // Open unit selector modal
+    function openUnitSelector(ingredient, category) {
+        currentEditingIngredient = {
+            name: ingredient.name,
+            cost: ingredient.cost,
+            unit: ingredient.unit,
+            category: category
+        };
+        
+        unitSelectorIngredient.value = ingredient.name;
+        unitSelectorCost.value = ingredient.cost;
+        unitSelectorUnit.value = ingredient.unit;
+        
+        unitSelectorModal.style.display = 'block';
+    }
+    
+    // Update ingredient unit
+    function updateIngredientUnit() {
+        const newCost = parseFloat(unitSelectorCost.value);
+        const newUnit = unitSelectorUnit.value;
+        
+        if (isNaN(newCost) || newCost <= 0) {
+            showNotification('Please enter a valid cost', 'error');
+            return;
+        }
+        
+        // Update in ingredientData
+        const category = currentEditingIngredient.category;
+        const ingredientIndex = ingredientData[category].findIndex(i => i.name === currentEditingIngredient.name);
+        
+        if (ingredientIndex !== -1) {
+            ingredientData[category][ingredientIndex].cost = newCost;
+            ingredientData[category][ingredientIndex].unit = newUnit;
+            
+            // Update in selected ingredients if present
+            const selectedIndex = selectedIngredients.findIndex(i => i.name === currentEditingIngredient.name);
+            if (selectedIndex !== -1) {
+                selectedIngredients[selectedIndex].cost = newCost;
+                selectedIngredients[selectedIndex].unit = newUnit;
+            }
+            
+            // Update in custom ingredients if it's a custom ingredient
+            const customIndex = customIngredients.findIndex(i => i.name === currentEditingIngredient.name);
+            if (customIndex !== -1) {
+                customIngredients[customIndex].cost = newCost;
+                customIngredients[customIndex].unit = newUnit;
+            }
+            
+            // Re-render and recalculate
+            renderIngredients();
+            renderSelectedIngredients();
+            calculatePrice();
+            
+            showNotification(`Updated ${currentEditingIngredient.name} to $${newCost}/${newUnit}`, 'success');
+        }
+        
+        unitSelectorModal.style.display = 'none';
+    }
+    
+    // Render ingredients by category
+    function renderIngredients() {
+        ingredientList.innerHTML = '';
+        
+        // Filter ingredients based on search term
+        const searchTerm = ingredientSearch.value.toLowerCase();
+        
+        // Get ingredients for current category
+        let ingredients = ingredientData[currentCategory] || [];
+        
+        // Filter by search term if provided
+        if (searchTerm) {
+            ingredients = Object.values(ingredientData)
+                .flat()
+                .filter(ing => ing.name.toLowerCase().includes(searchTerm));
+        }
+        
+        // If no ingredients found
+        if (ingredients.length === 0) {
+            ingredientList.innerHTML = `
+                <div class="text-center text-gray-500 py-6">
+                    No ingredients found matching "${searchTerm}"
+                </div>
+            `;
+            return;
+        }
+        
+        // Render each ingredient
+        ingredients.forEach(ingredient => {
+            // Check if this ingredient is selected
+            const isSelected = selectedIngredients.some(i => i.name === ingredient.name);
+            
+            // Check if this ingredient is recommended for current cuisine
+            const isRecommended = currentCuisine === "hibachi" 
+                ? hibachiSpecificIngredients.includes(ingredient.name)
+                : filipinoSpecificIngredients.includes(ingredient.name);
+            
+            const ingredientEl = document.createElement('div');
+            ingredientEl.className = `ingredient-item p-3 border rounded-lg flex items-center justify-between ${isSelected ? 'selected' : ''}`;
+            
+            ingredientEl.innerHTML = `
+                <div class="flex items-center">
+                    <input type="checkbox" id="ing-${ingredient.name.replace(/\s+/g, '-')}" 
+                        class="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500" 
+                        ${isSelected ? 'checked' : ''}>
+                    <label for="ing-${ingredient.name.replace(/\s+/g, '-')}" class="ml-2 text-gray-700">
+                        ${ingredient.name}
+                        ${isRecommended ? '<span class="ml-1 text-xs bg-orange-100 text-orange-600 px-1 py-0.5 rounded">Recommended</span>' : ''}
+                    </label>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-gray-600 text-sm mr-2">
+                        $${ingredient.cost.toFixed(2)}/${ingredient.unit}
+                    </span>
+                    <button class="edit-unit-btn text-blue-500 hover:text-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            ingredientList.appendChild(ingredientEl);
+            
+            // Add event listener for checkbox
+            const checkbox = ingredientEl.querySelector(`#ing-${ingredient.name.replace(/\s+/g, '-')}`);
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    // Add to selected ingredients
+                    selectedIngredients.push({
+                        name: ingredient.name,
+                        cost: ingredient.cost,
+                        unit: ingredient.unit,
+                        amount: 1,
+                        category: currentCategory
+                    });
+                    ingredientEl.classList.add('selected');
+                } else {
+                    // Remove from selected ingredients
+                    selectedIngredients = selectedIngredients.filter(i => i.name !== ingredient.name);
+                    ingredientEl.classList.remove('selected');
+                }
+                renderSelectedIngredients();
+                calculatePrice();
+            });
+            
+            // Add event listener for edit unit button
+            const editUnitBtn = ingredientEl.querySelector('.edit-unit-btn');
+            editUnitBtn.addEventListener('click', () => {
+                openUnitSelector(ingredient, currentCategory);
+            });
+        });
+    }
+    
+    // Render selected ingredients
+    function renderSelectedIngredients() {
+        if (selectedIngredients.length === 0) {
+            selectedIngredientsList.innerHTML = `
+                <p class="text-gray-500 text-center py-6">No ingredients selected yet</p>
+            `;
+            return;
+        }
+        
+        selectedIngredientsList.innerHTML = '';
+        
+        selectedIngredients.forEach((ingredient, index) => {
+            const ingredientEl = document.createElement('div');
+            ingredientEl.className = 'flex items-center justify-between py-2 border-b border-gray-100 last:border-0';
+            
+            ingredientEl.innerHTML = `
+                <div class="flex-1">
+                    <span class="text-gray-800">${ingredient.name}</span>
+                    <span class="text-xs text-gray-500 ml-1">($${ingredient.cost.toFixed(2)}/${ingredient.unit})</span>
+                </div>
+                <div class="flex items-center">
+                    <input type="number" class="selected-amount w-16 px-2 py-1 border border-gray-300 rounded text-right" 
+                        value="${ingredient.amount}" min="0.1" step="0.1">
+                    <span class="ml-2 text-gray-600">$${(ingredient.cost * ingredient.amount).toFixed(2)}</span>
+                    <button class="remove-ingredient ml-2 text-red-500 hover:text-red-700" data-index="${index}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            selectedIngredientsList.appendChild(ingredientEl);
+            
+            // Add event listeners
+            const amountInput = ingredientEl.querySelector('.selected-amount');
+            amountInput.addEventListener('input', () => {
+                selectedIngredients[index].amount = parseFloat(amountInput.value) || 0;
+                renderSelectedIngredients();
+                calculatePrice();
+            });
+            
+            const removeBtn = ingredientEl.querySelector('.remove-ingredient');
+            removeBtn.addEventListener('click', () => {
+                selectedIngredients.splice(index, 1);
+                renderSelectedIngredients();
+                renderIngredients();
+                calculatePrice();
+            });
+        });
+    }
+    
+    // Toggle cuisine type
+    cuisineHibachi.addEventListener('click', () => {
+        cuisineHibachi.classList.add('bg-orange-500', 'text-white');
+        cuisineHibachi.classList.remove('bg-gray-200', 'text-gray-700');
+        cuisineFilipino.classList.add('bg-gray-200', 'text-gray-700');
+        cuisineFilipino.classList.remove('bg-orange-500', 'text-white');
+        currentCuisine = "hibachi";
+        resultCuisineType.textContent = "Hibachi";
+        renderIngredients();
+        calculatePrice();
+    });
+    
+    cuisineFilipino.addEventListener('click', () => {
+        cuisineFilipino.classList.add('bg-orange-500', 'text-white');
+        cuisineFilipino.classList.remove('bg-gray-200', 'text-gray-700');
+        cuisineHibachi.classList.add('bg-gray-200', 'text-gray-700');
+        cuisineHibachi.classList.remove('bg-orange-500', 'text-white');
+        currentCuisine = "filipino";
+        resultCuisineType.textContent = "Filipino";
+        renderIngredients();
+        calculatePrice();
+    });
+    
+    // Category tabs
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            categoryTabs.forEach(t => {
+                t.classList.remove('active');
+                t.classList.add('bg-gray-200');
+            });
+            tab.classList.add('active');
+            tab.classList.remove('bg-gray-200');
+            currentCategory = tab.dataset.category;
+            renderIngredients();
+        });
+    });
+    
+    // Search ingredients
+    ingredientSearch.addEventListener('input', () => {
+        renderIngredients();
+    });
+    
+    // Profit margin slider
+    profitMargin.addEventListener('input', () => {
+        profitDisplay.textContent = `${profitMargin.value}%`;
+        calculatePrice();
+    });
+    
+    // Labor and overhead cost inputs
+    laborCost.addEventListener('input', calculatePrice);
+    overheadCost.addEventListener('input', calculatePrice);
+    
+    // Portion size buttons
+    portionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            portionBtns.forEach(b => b.classList.remove('bg-orange-100'));
+            btn.classList.add('bg-orange-100');
+            currentPortionSize = btn.dataset.size;
+            currentPortionOz = parseInt(btn.dataset.oz);
+            resultPortionSize.textContent = `${currentPortionSize.charAt(0).toUpperCase() + currentPortionSize.slice(1)} (${currentPortionOz} oz)`;
+            calculatePrice();
+        });
+    });
+    
+    // Add new ingredient
+    addIngredientBtn.addEventListener('click', () => {
+        const name = newIngredientInput.value.trim();
+        const cost = parseFloat(newIngredientCostInput.value);
+        const unit = newIngredientUnitInput.value;
+        
+        if (name && !isNaN(cost) && cost > 0) {
+            // Add to current category
+            ingredientData[currentCategory].push({
+                name: name,
+                cost: cost,
+                unit: unit
+            });
+            
+            // Add to selected ingredients
+            selectedIngredients.push({
+                name: name,
+                cost: cost,
+                unit: unit,
+                amount: 1,
+                category: currentCategory
+            });
+            
+            // Add to custom ingredients
+            customIngredients.push({
+                name: name,
+                cost: cost,
+                unit: unit,
+                category: currentCategory
+            });
+            
+            newIngredientInput.value = '';
+            newIngredientCostInput.value = '';
+            renderIngredients();
+            renderSelectedIngredients();
+            calculatePrice();
+            
+            showNotification(`Added new ingredient: ${name}`, 'success');
+        }
+    });
+    
+    // Calculate price
+    function calculatePrice() {
+        // Get values
+        const labor = parseFloat(laborCost.value) || 0;
+        const overhead = parseFloat(overheadCost.value) || 0;
+        const profit = parseInt(profitMargin.value) / 100;
+        
+        // Calculate ingredient cost based on selected ingredients
+        let ingredientTotal = 0;
+        selectedIngredients.forEach(ing => {
+            ingredientTotal += ing.cost * ing.amount;
+        });
+        
+        // Apply portion size multiplier based on ounces
+        let portionMultiplier = currentPortionOz / 6; // 6 oz is the base (regular)
+        
+        const adjustedIngredientCost = ingredientTotal * portionMultiplier;
+        const adjustedLabor = labor * portionMultiplier;
+        
+        // Calculate total cost and final price
+        const totalCostValue = adjustedIngredientCost + adjustedLabor + overhead;
+        const finalPriceValue = totalCostValue / (1 - profit);
+        
+        // Update UI
+        ingredientsCost.textContent = `$${adjustedIngredientCost.toFixed(2)}`;
+        resultLaborCost.textContent = `$${adjustedLabor.toFixed(2)}`;
+        resultOverheadCost.textContent = `$${overhead.toFixed(2)}`;
+        totalCost.textContent = `$${totalCostValue.toFixed(2)}`;
+        resultProfitMargin.textContent = `${profitMargin.value}%`;
+        finalPrice.textContent = `$${finalPriceValue.toFixed(2)}`;
+        
+        // Update dish name in result
+        const dishName = dishNameInput.value.trim() || 'Dish Name';
+        resultDishName.textContent = dishName;
+    }
+    
+    // Save dish to menu
+    saveDishBtn.addEventListener('click', () => {
+        const dishName = dishNameInput.value.trim() || 'Unnamed Dish';
+        
+        // Check if ingredients are selected
+        if (selectedIngredients.length === 0) {
+            showNotification('Please select at least one ingredient', 'error');
+            return;
+        }
+        
+        // Create dish object
+        const dish = {
+            id: Date.now(),
+            name: dishName,
+            cuisineType: currentCuisine,
+            portionSize: currentPortionSize,
+            portionOz: currentPortionOz,
+            ingredients: JSON.parse(JSON.stringify(selectedIngredients)), // Deep copy
+            laborCost: parseFloat(laborCost.value) || 0,
+            overheadCost: parseFloat(overheadCost.value) || 0,
+            profitMargin: parseInt(profitMargin.value),
+            price: parseFloat(finalPrice.textContent.replace('$', ''))
+        };
+        
+        // Add to saved dishes
+        savedDishes.push(dish);
+        renderSavedDishes();
+        
+        // Auto-save to localStorage
+        saveToLocalStorage();
+        
+        // Show success message
+        showNotification(`"${dishName}" has been added to your menu!`, 'success');
+    });
+    
+    // Render saved dishes
+    function renderSavedDishes() {
+        if (savedDishes.length === 0) {
+            savedDishesContainer.innerHTML = `
+                <div class="text-center text-gray-500 py-10 col-span-full">
+                    No dishes saved yet. Build your first dish and click "Save to Menu".
+                </div>
+            `;
+            return;
+        }
+        
+        savedDishesContainer.innerHTML = '';
+        
+        savedDishes.forEach(dish => {
+            const dishCard = document.createElement('div');
+            dishCard.className = 'card bg-white rounded-xl shadow-md overflow-hidden';
+            
+            // Get top ingredients
+            const topIngredients = dish.ingredients.slice(0, 3).map(ing => ing.name).join(', ');
+            const moreCount = dish.ingredients.length > 3 ? `+${dish.ingredients.length - 3} more` : '';
+            
+            // Get portion size with oz
+            let portionText = dish.portionSize.charAt(0).toUpperCase() + dish.portionSize.slice(1);
+            if (dish.portionOz) {
+                portionText += ` (${dish.portionOz} oz)`;
+            }
+            
+            dishCard.innerHTML = `
+                <div class="p-1 ${dish.cuisineType === 'filipino' ? 'bg-red-500' : 'bg-orange-500'}"></div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-lg font-semibold text-gray-800">${dish.name}</h3>
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                            ${dish.cuisineType.charAt(0).toUpperCase() + dish.cuisineType.slice(1)}
+                        </span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">${topIngredients} ${moreCount ? `<span class="text-gray-400">${moreCount}</span>` : ''}</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-sm text-gray-500">${portionText}</span>
+                        <span class="text-lg font-bold text-gray-800">$${dish.price.toFixed(2)}</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between">
+                        <button class="edit-dish-btn text-blue-500 hover:text-blue-700 text-sm" data-id="${dish.id}">Edit</button>
+                        <button class="delete-dish-btn text-red-500 hover:text-red-700 text-sm" data-id="${dish.id}">Delete</button>
+                    </div>
+                </div>
+            `;
+            
+            savedDishesContainer.appendChild(dishCard);
+            
+            // Add event listeners
+            const deleteBtn = dishCard.querySelector('.delete-dish-btn');
+            deleteBtn.addEventListener('click', () => {
+                if (confirm(`Are you sure you want to delete "${dish.name}"?`)) {
+                    savedDishes = savedDishes.filter(d => d.id !== dish.id);
+                    renderSavedDishes();
+                    saveToLocalStorage();
+                    showNotification(`"${dish.name}" has been deleted`, 'success');
+                }
+            });
+            
+            const editBtn = dishCard.querySelector('.edit-dish-btn');
+            editBtn.addEventListener('click', () => {
+                // Load dish data into the form
+                dishNameInput.value = dish.name;
+                
+                // Set cuisine type
+                if (dish.cuisineType === 'hibachi') {
+                    cuisineHibachi.click();
+                } else {
+                    cuisineFilipino.click();
+                }
+                
+                // Set selected ingredients
+                selectedIngredients = JSON.parse(JSON.stringify(dish.ingredients)); // Deep copy
+                
+                // Set portion size
+                portionBtns.forEach(btn => {
+                    if (btn.dataset.size === dish.portionSize) {
+                        btn.click();
+                    }
+                });
+                
+                // Set other values
+                laborCost.value = dish.laborCost;
+                overheadCost.value = dish.overheadCost;
+                profitMargin.value = dish.profitMargin;
+                profitDisplay.textContent = `${dish.profitMargin}%`;
+                
+                // Render and calculate
+                renderSelectedIngredients();
+                renderIngredients();
+                calculatePrice();
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                showNotification(`Editing "${dish.name}"`, 'info');
+            });
+        });
+    }
+    
+    // Save app data button
+    saveAppDataBtn.addEventListener('click', () => {
+        saveToLocalStorage();
+    });
+    
+    // Export data button
+    exportDataBtn.addEventListener('click', () => {
+        exportData();
+    });
+    
+    // Import data button
+    importDataBtn.addEventListener('click', () => {
+        importModal.style.display = 'block';
+    });
+    
+    // Print menu button
+    printMenuBtn.addEventListener('click', () => {
+        printMenu();
+    });
+    
+    // Close modal buttons
+    closeModalBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.closest('.modal').style.display = 'none';
+        });
+    });
+    
+    // Cancel import button
+    cancelImportBtn.addEventListener('click', () => {
+        importModal.style.display = 'none';
+    });
+    
+    // Confirm import button
+    confirmImportBtn.addEventListener('click', () => {
+        const jsonData = importDataText.value.trim();
+        if (jsonData) {
+            importData(jsonData);
+            importModal.style.display = 'none';
+        } else {
+            showNotification('Please paste valid JSON data', 'error');
+        }
+    });
+    
+    // Cancel unit change button
+    cancelUnitChangeBtn.addEventListener('click', () => {
+        unitSelectorModal.style.display = 'none';
+    });
+    
+    // Confirm unit change button
+    confirmUnitChangeBtn.addEventListener('click', () => {
+        updateIngredientUnit();
+    });
+    
+    // Add event listener for dish name input
+    dishNameInput.addEventListener('input', () => {
+        const dishName = dishNameInput.value.trim() || 'Dish Name';
+        resultDishName.textContent = dishName;
+    });
+    
+    // Initialize
+    loadFromLocalStorage();
+    renderIngredients();
+    renderSelectedIngredients();
+    calculatePrice();
+    renderSavedDishes();
+</script>
